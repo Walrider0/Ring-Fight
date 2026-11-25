@@ -73,8 +73,12 @@ public class BoxingAgent : Agent
         Vector3 move = transform.forward * forward + transform.right * side;
         transform.position += Vector3.ClampMagnitude(move, 1f * speed * Time.fixedDeltaTime);
 
-        //Vector3 posi = transform.position - arena.transform.position;
-        //float limit = 
+        Vector3 posi = transform.position - arena.transform.position;
+        float limit = arena.half - 0.5f;
+        posi.x = Mathf.Clamp(posi.x, -limit, limit);
+        posi.z = Mathf.Clamp(posi.z, -limit, limit);
+        transform.position = arena.transform.position +
+            new Vector3(posi.x, startPosition.y - arena.transform.position.y, posi.z);
 
         cooldown -= Time.fixedDeltaTime;
         if (action == 1 && cooldown <= 0)
